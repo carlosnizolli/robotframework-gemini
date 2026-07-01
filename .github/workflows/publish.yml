@@ -6,6 +6,7 @@ on:
       - "v*"
 
 permissions:
+  contents: read
   id-token: write
 
 jobs:
@@ -16,7 +17,7 @@ jobs:
       url: https://pypi.org/p/robotframework-gemini
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
