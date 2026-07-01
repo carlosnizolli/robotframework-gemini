@@ -1,0 +1,4 @@
+# RobotCode / LSP: resolve ``Library    GeminiLibrary`` and ``src/`` packages in the repo checkout.
+[robot]
+python-path = ["src"]
+extend-python-path = ["src"]

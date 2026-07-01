@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": ["src"],
+  "python.autoComplete.extraPaths": ["src"],
+  "robot.pythonpath": ["src"],
+  "robot.python.executable": "${workspaceFolder}/.venv/bin/python"
+}

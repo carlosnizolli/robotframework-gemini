@@ -25,12 +25,39 @@ Desenvolvimento local:
 python -m pip install -e ".[dev]"
 ```
 
-## Variáveis de ambiente
+## Variáveis de ambiente e importação da Library
 
-| Variável          | Função                                      |
-|-------------------|---------------------------------------------|
-| `GEMINI_API_KEY`  | Chave da API Gemini (obrigatória se não passar `api_key` na Library) |
-| `GEMINI_MODEL`    | Modelo (ex.: `gemini-2.0-flash`). Se omitido, usa `gemini-2.0-flash`. |
+| Variável / argumento | Função |
+|----------------------|--------|
+| `GEMINI_API_KEY` | Chave da API Gemini (obrigatória se não passar `api_key` na Library) |
+| `GEMINI_MODEL` | Modelo (ex.: `gemini-2.5-flash`). Se omitido, usa `gemini-2.5-flash`. |
+| `api_key` (import) | Sobrescreve `GEMINI_API_KEY` na importação da Library |
+| `model` (import) | Sobrescreve `GEMINI_MODEL` na importação da Library |
+
+Por padrão, a Library lê chave e modelo das variáveis de ambiente. Você também pode passá-los na importação (útil em CI ou suítes com credenciais em variáveis Robot):
+
+```robot
+*** Variables ***
+${GEMINI_API_KEY}    %{GEMINI_API_KEY}
+${GEMINI_MODEL}      gemini-2.5-flash
+
+*** Settings ***
+Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
+```
+
+Só o modelo (chave continua vinda do ambiente):
+
+```robot
+Library    GeminiLibrary    model=gemini-2.5-flash
+```
+
+Import explícito (equivalente):
+
+```robot
+Library    robotframework_gemini.library.GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
+```
+
+> Evite commitar a chave literal no repositório; prefira `%{GEMINI_API_KEY}` ou secrets do CI.
 
 ## Uso em Python (`GeminiOrchestrator`)
 
@@ -39,6 +66,8 @@ from pathlib import Path
 from robotframework_gemini import GeminiOrchestrator
 
 orchestrator = GeminiOrchestrator()
+# ou explicitamente:
+# orchestrator = GeminiOrchestrator(api_key="...", model="gemini-2.5-flash")
 context = "Web dashboard with the 'Active' category filter applied."
 evaluation = "Do the visible list items match the selected category?"
 model_response = orchestrator.evaluate_with_image(context, evaluation, Path("screen.png"))
@@ -89,11 +118,31 @@ Checar tela por critério neutro
     Log    ${model_response}
 ```
 
-Import explícito (equivalente):
+Import recomendado (RobotCode, runtime e PyPI):
 
 ```robot
-Library    robotframework_gemini.library.GeminiLibrary
+Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 ```
+
+Import explícito do pacote (Python / IDEs que preferem o caminho completo):
+
+```robot
+Library    robotframework_gemini.library.GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
+```
+
+### IDE e RobotCode
+
+| Forma de import | Quem resolve |
+|-----------------|--------------|
+| `Library    GeminiLibrary` | Módulo top-level `GeminiLibrary.py` (instalado no wheel ou via `src/` no clone) |
+| `Library    robotframework_gemini.library.GeminiLibrary` | Pacote Python padrão |
+
+No **clone do repositório**, sem instalar:
+
+- [`robot.toml`](robot.toml) — `python-path = ["src"]` para RobotCode/LSP
+- [`.vscode/settings.json`](.vscode/settings.json) — `extraPaths` para Pylance/Cursor
+
+Com venv local: `pip install -e ".[dev]"` e recarregue a janela do IDE após mudanças.
 
 Com arquivo já salvo:
 

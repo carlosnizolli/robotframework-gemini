@@ -4,9 +4,17 @@ Referência da biblioteca `robotframework_gemini.library.GeminiLibrary` (atalho:
 
 ## Pré-requisitos
 
-- `Library    GeminiLibrary` (ou `Library    robotframework_gemini.library.GeminiLibrary`)
+- `Library    GeminiLibrary` — recomendado (módulo top-level; RobotCode e runtime)
+- `Library    robotframework_gemini.library.GeminiLibrary` — caminho explícito do pacote Python
+- `Library    BrowserGeminiLibrary` — alias legado (mesma classe)
+- Argumentos opcionais na importação: `api_key=${GEMINI_API_KEY}` e `model=${GEMINI_MODEL}` (sobrescrevem env; default do modelo: `gemini-2.5-flash`)
 - Para keywords de screenshot: `Library    Browser` (instale com `pip install "robotframework-gemini[browser]"`)
 - Variáveis de ambiente: `GEMINI_API_KEY` e opcionalmente `GEMINI_MODEL`
+
+```robot
+*** Settings ***
+Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=gemini-2.5-flash
+```
 
 ## Convenção de retorno
 

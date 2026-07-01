@@ -33,7 +33,12 @@ ensure_gemini_env_from_legacy()
 
 
 class GeminiLibrary:
-    """Keywords for Gemini text oracles and optional Browser screenshot capture."""
+    """Keywords for Gemini text oracles and optional Browser screenshot capture.
+
+    Import arguments:
+    - ``api_key`` — Gemini API key (falls back to ``GEMINI_API_KEY`` when omitted)
+    - ``model`` — model id (falls back to ``GEMINI_MODEL``, then ``gemini-2.5-flash``)
+    """
 
     ROBOT_LIBRARY_SCOPE = "GLOBAL"
 
