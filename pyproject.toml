@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "robotframework-gemini"
+version = "0.2.0"
+description = "Google Gemini oracles for Robot Framework: text-only and multimodal (image) assertions."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Logcomex / NCM Intel QA contributors" }]
+keywords = ["Robot Framework", "Gemini", "LLM", "multimodal", "QA", "testing"]
+dependencies = [
+    "google-genai>=1.10.0",
+]
+
+[project.optional-dependencies]
+browser = [
+    "robotframework-browser>=18.0.0",
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.entry-points."robotframework.libraries"]
+GeminiLibrary = "robotframework_gemini.library:GeminiLibrary"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/robotframework_gemini"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/robotframework_gemini"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
