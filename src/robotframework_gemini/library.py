@@ -162,7 +162,8 @@ class GeminiLibrary:
 
         ``context`` — any test evidence (API body, logs, UI text, file excerpt, etc.).
         ``evaluation`` — criterion to score (how well the evidence meets the test intent).
-        Use ``Gemini Parse Rating`` to extract the integer score (1–5).
+        Returns raw model text (``SCORE:`` + ``REASON:``). Use ``Gemini Parse Rating`` to extract
+        the integer, or ``Gemini Evaluate Text Rating Score`` for a one-step score only.
         ``extra_instructions`` is appended after the built-in rubric.
         """
         return self._get_orchestrator().evaluate_with_text_rating(
@@ -173,8 +174,31 @@ class GeminiLibrary:
 
     @keyword("Gemini Parse Rating")
     def gemini_parse_rating(self, raw_response: str) -> str:
-        """Extract score 1–5 from a judge response; returns raw text if parsing fails."""
+        """Extract score 1–5 from a judge response; returns raw text if parsing fails.
+
+        Local parsing only (no API call). Works on output from ``Gemini Evaluate Text Rating``
+        or any text that follows ``SCORE:``/``NOTA:`` format.
+        """
         return GeminiOrchestrator.parse_rating(raw_response)
+
+    @keyword("Gemini Evaluate Text Rating Score")
+    def gemini_evaluate_text_rating_score(
+        self,
+        context: str,
+        evaluation: str,
+        extra_instructions: str | None = None,
+    ) -> str:
+        """Convenience: ``Gemini Evaluate Text Rating`` + ``Gemini Parse Rating`` in one call.
+
+        Returns only the integer score ``1``–``5`` as text. Prefer the two-step flow when you
+        need to log or assert on the full ``SCORE``/``REASON`` response from the model.
+        """
+        model_response = self.gemini_evaluate_text_rating(
+            context,
+            evaluation,
+            extra_instructions=extra_instructions,
+        )
+        return self.gemini_parse_rating(model_response)
 
     @keyword("Gemini Generate From Prompt")
     def gemini_generate_from_prompt(self, prompt: str) -> str:

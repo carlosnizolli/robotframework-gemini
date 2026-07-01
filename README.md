@@ -38,23 +38,25 @@ python -m pip install -e ".[dev]"
 from pathlib import Path
 from robotframework_gemini import GeminiOrchestrator
 
-orc = GeminiOrchestrator()
-ctx = "Web dashboard with the 'Active' category filter applied."
-crit = "Do the visible list items match the selected category?"
-raw = orc.evaluate_with_image(ctx, crit, Path("screen.png"))
+orchestrator = GeminiOrchestrator()
+context = "Web dashboard with the 'Active' category filter applied."
+evaluation = "Do the visible list items match the selected category?"
+model_response = orchestrator.evaluate_with_image(context, evaluation, Path("screen.png"))
 ```
 
 Para formato de saída restrito (ex.: Yes/No), use `extra_instructions`:
 
 ```python
-raw = orc.evaluate_with_text(
-    ctx,
-    crit,
+model_response = orchestrator.evaluate_with_text(
+    context,
+    evaluation,
     extra_instructions="Reply with one word only: Yes or No.",
 )
 ```
 
 ## Uso no Robot Framework
+
+> **Nota:** os exemplos usam `Set Variable` e `Catenate` em vez da keyword `VAR` (Robot Framework 7.0+) para manter retrocompatibilidade com versões anteriores do Robot Framework.
 
 ### Só texto (sem Browser)
 
@@ -64,10 +66,10 @@ Library    GeminiLibrary
 
 *** Keywords ***
 Validar resposta da API
-    ${ctx}=       Set Variable    {"status": "ok", "items": 3}
-    ${crit}=      Set Variable    O payload indica sucesso com itens?
-    ${raw}=       Gemini Evaluate Text    ${ctx}    ${crit}
-    Log    ${raw}
+    ${context}=       Set Variable    {"status": "ok", "items": 3}
+    ${evaluation}=    Set Variable    O payload indica sucesso com itens?
+    ${model_response}=    Gemini Evaluate Text    ${context}    ${evaluation}
+    Log    ${model_response}
 ```
 
 ### Com captura de tela (Browser)
@@ -81,10 +83,10 @@ Library    GeminiLibrary
 
 *** Keywords ***
 Checar tela por critério neutro
-    ${ctx}=       Set Variable    Lista filtrada por status Ativo.
-    ${crit}=      Set Variable    Todos os itens visíveis mostram status Ativo?
-    ${raw}=       Gemini Evaluate With Screen    ${ctx}    ${crit}
-    Log    ${raw}
+    ${context}=       Set Variable    Lista filtrada por status Ativo.
+    ${evaluation}=    Set Variable    Todos os itens visíveis mostram status Ativo?
+    ${model_response}=    Gemini Evaluate With Screen    ${context}    ${evaluation}
+    Log    ${model_response}
 ```
 
 Import explícito (equivalente):
@@ -97,20 +99,25 @@ Com arquivo já salvo:
 
 ```robot
 Browser.Take Screenshot    ${OUTPUT_DIR}/tela.png
-${raw}=    Gemini Evaluate With Image File    ${ctx}    ${crit}    ${OUTPUT_DIR}/tela.png
+${model_response}=    Gemini Evaluate With Image File    ${context}    ${evaluation}    ${OUTPUT_DIR}/tela.png
 ```
 
 Veredito via prompt (primeira linha) e nota 1–5:
 
 ```robot
-${raw}=    Gemini Evaluate With Screen    ${ctx}    ${crit}
+${model_response}=    Gemini Evaluate With Screen    ${context}    ${evaluation}
 ...    extra_instructions=Responda com uma palavra na primeira linha: Sim ou Não.
-${v}=    Get Line    ${raw}    0
-Should Be Equal As Strings    ${v}    Sim
+${verdict}=    Get Line    ${model_response}    0
+Should Be Equal As Strings    ${verdict}    Sim
 
-${raw}=    Gemini Evaluate Text Rating    ${ctx}    ${criterion}
-${score}=    Gemini Parse Rating    ${raw}
+# Nota 1–5: duas etapas (log da justificativa) ou atalho em uma linha
+${model_response}=    Gemini Evaluate Text Rating    ${context}    ${evaluation}
+${rating_score}=    Gemini Parse Rating    ${model_response}
+
+${rating_score}=    Gemini Evaluate Text Rating Score    ${context}    ${evaluation}
 ```
+
+Detalhes das três keywords de nota: [`docs/KEYWORDS.pt-BR.md#notas-15-três-keywords-quando-usar`](docs/KEYWORDS.pt-BR.md#notas-15-três-keywords-quando-usar).
 
 Consulte também [`examples/demo_template.robot`](examples/demo_template.robot).
 

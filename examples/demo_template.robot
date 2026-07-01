@@ -13,8 +13,8 @@ Demo Gemini Evaluate With Screen
     Browser.New Browser    chromium    headless=True
     Browser.New Context
     Browser.New Page    url=${DEMO_URL}
-    ${ctx}=    Set Variable    Página simples carregada no navegador.
-    ${crit}=    Set Variable    A área visível parece predominantemente em branco ou quase vazia?
-    ${text}=    Gemini Evaluate With Screen    ${ctx}    ${crit}
-    Log To Console    ${text}
+    ${context}=    Set Variable    Página simples carregada no navegador.
+    ${evaluation}=    Set Variable    A área visível parece predominantemente em branco ou quase vazia?
+    ${model_response}=    Gemini Evaluate With Screen    ${context}    ${evaluation}
+    Log To Console    ${model_response}
     [Teardown]    Browser.Close Browser

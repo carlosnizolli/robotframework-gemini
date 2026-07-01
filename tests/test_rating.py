@@ -1,4 +1,5 @@
 from robotframework_gemini.client import GeminiOrchestrator
+from robotframework_gemini.library import GeminiLibrary
 from robotframework_gemini.prompt_build import (
     DEFAULT_RATING_OUTPUT_INSTRUCTIONS,
     build_evaluation_prompt,
@@ -56,3 +57,15 @@ def test_evaluate_with_text_rating_uses_rubric(monkeypatch):
     assert "SCORE:" in captured["prompt"]
     assert "Is the structure consistent and complete?" in captured["prompt"]
     assert orch.parse_rating(out) == "5"
+
+
+def test_library_gemini_evaluate_text_rating_score_keyword(monkeypatch):
+    lib = GeminiLibrary(api_key="k", model="m")
+
+    def fake_rating(context, evaluation, extra_instructions=None):
+        return "SCORE: 4\nREASON: Mostly complete."
+
+    monkeypatch.setattr(lib, "gemini_evaluate_text_rating", fake_rating)
+
+    score = lib.gemini_evaluate_text_rating_score("context", "evaluation")
+    assert score == "4"
