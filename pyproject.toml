@@ -8,12 +8,33 @@ version = "0.2.0"
 description = "Google Gemini oracles for Robot Framework: text-only and multimodal (image) assertions."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
-authors = [{ name = "Logcomex / NCM Intel QA contributors" }]
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Carlos Nizolli" }]
 keywords = ["Robot Framework", "Gemini", "LLM", "multimodal", "QA", "testing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
+    "Framework :: Robot Framework",
+]
 dependencies = [
     "google-genai>=1.10.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/carlosnizolli/robotframework-gemini"
+Documentation = "https://github.com/carlosnizolli/robotframework-gemini#readme"
+Repository = "https://github.com/carlosnizolli/robotframework-gemini"
+Issues = "https://github.com/carlosnizolli/robotframework-gemini/issues"
+Changelog = "https://github.com/carlosnizolli/robotframework-gemini/releases"
 
 [project.optional-dependencies]
 browser = [
@@ -21,6 +42,8 @@ browser = [
 ]
 dev = [
     "pytest>=8.0",
+    "build>=1.0",
+    "twine>=5.0",
 ]
 
 [project.entry-points."robotframework.libraries"]
@@ -30,7 +53,11 @@ GeminiLibrary = "robotframework_gemini.library:GeminiLibrary"
 packages = ["src/robotframework_gemini"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/robotframework_gemini"]
+include = [
+    "src/robotframework_gemini",
+    "LICENSE",
+    "README.md",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
