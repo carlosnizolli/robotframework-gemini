@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "robotframework-gemini"
-version = "0.3.1"
+version = "0.3.2"
 description = "Google Gemini oracles for Robot Framework: text-only and multimodal (image) assertions."
 readme = "README.md"
 requires-python = ">=3.10"

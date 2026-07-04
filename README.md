@@ -1,6 +1,6 @@
 # robotframework-gemini
 
-Biblioteca **Python** e **keywords do Robot Framework** para oráculos com **Google Gemini**: avaliação **só texto** (API, logs, JSON, etc.) ou **multimodal** com imagem (arquivo PNG ou captura do **Robot Framework Browser**).
+Biblioteca de **keywords do Robot Framework** para oráculos com **Google Gemini**: avaliação **só texto** (API, logs, JSON, etc.) ou **multimodal** com imagem (arquivo PNG ou captura do **Robot Framework Browser**).
 
 - **Multimodal**: envia o texto do prompt e a captura como `Part` em bytes (`google-genai`).
 - **Fluxo recomendado**: duas entradas — **contexto** (enquadramento do teste) e **avaliação** (critério ou pergunta objetiva).
@@ -30,7 +30,7 @@ python -m pip install -e ".[dev]"
 | Variável / argumento | Função |
 |----------------------|--------|
 | `GEMINI_API_KEY` | Chave da API Gemini (obrigatória se não passar `api_key` na Library) |
-| `GEMINI_MODEL` | Modelo (ex.: `gemini-2.5-flash`). Se omitido, usa `gemini-2.5-flash`. |
+| `GEMINI_MODEL` | Modelo (ex.: `gemini-3.1-flash-lite`). Se omitido, usa `gemini-2.5-flash`. |
 | `api_key` (import) | Sobrescreve `GEMINI_API_KEY` na importação da Library |
 | `model` (import) | Sobrescreve `GEMINI_MODEL` na importação da Library |
 
@@ -39,7 +39,7 @@ Por padrão, a Library lê chave e modelo das variáveis de ambiente. Você tamb
 ```robot
 *** Variables ***
 ${GEMINI_API_KEY}    %{GEMINI_API_KEY}
-${GEMINI_MODEL}      gemini-2.5-flash
+${GEMINI_MODEL}      gemini-2.5-flash-lite
 
 *** Settings ***
 Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
@@ -59,29 +59,10 @@ Library    robotframework_gemini.library.GeminiLibrary    api_key=${GEMINI_API_K
 
 > Evite commitar a chave literal no repositório; prefira `%{GEMINI_API_KEY}` ou secrets do CI.
 
-## Uso em Python (`GeminiOrchestrator`)
+## Documentação de Keywords
 
-```python
-from pathlib import Path
-from robotframework_gemini import GeminiOrchestrator
-
-orchestrator = GeminiOrchestrator()
-# ou explicitamente:
-# orchestrator = GeminiOrchestrator(api_key="...", model="gemini-2.5-flash")
-context = "Web dashboard with the 'Active' category filter applied."
-evaluation = "Do the visible list items match the selected category?"
-model_response = orchestrator.evaluate_with_image(context, evaluation, Path("screen.png"))
-```
-
-Para formato de saída restrito (ex.: Yes/No), use `extra_instructions`:
-
-```python
-model_response = orchestrator.evaluate_with_text(
-    context,
-    evaluation,
-    extra_instructions="Reply with one word only: Yes or No.",
-)
-```
+- Português: [docs/KEYWORDS.pt-BR.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md)
+- English: [docs/KEYWORDS.en.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md)
 
 ## Uso no Robot Framework
 
@@ -124,7 +105,7 @@ Import recomendado (RobotCode, runtime e PyPI):
 Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 ```
 
-Import explícito do pacote (Python / IDEs que preferem o caminho completo):
+Import explícito do pacote (IDEs que preferem o caminho completo):
 
 ```robot
 Library    robotframework_gemini.library.GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
@@ -166,19 +147,9 @@ ${rating_score}=    Gemini Parse Rating    ${model_response}
 ${rating_score}=    Gemini Evaluate Text Rating Score    ${context}    ${evaluation}
 ```
 
-Detalhes das três keywords de nota: [`docs/KEYWORDS.pt-BR.md#notas-15-três-keywords-quando-usar`](docs/KEYWORDS.pt-BR.md#notas-15-três-keywords-quando-usar).
+Detalhes das três keywords de nota: [Notas 1–5 (pt-BR)](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md#notas-15-três-keywords-quando-usar).
 
-Consulte também [`examples/demo_template.robot`](examples/demo_template.robot).
-
-## Documentação de Keywords
-
-- Português: [`docs/KEYWORDS.pt-BR.md`](docs/KEYWORDS.pt-BR.md)
-- English: [`docs/KEYWORDS.en.md`](docs/KEYWORDS.en.md)
-
-## Compatibilidade
-
-- `BrowserGeminiLibrary` permanece como alias de `GeminiLibrary` para suítes existentes.
-- Variáveis legadas (`LLM_API_KEY`, `LLM_API_KEY_LIA`, `LLM_LIA_MODEL`) são mapeadas para `GEMINI_*` ao importar o pacote.
+Consulte também [examples/demo_template.robot](https://github.com/carlosnizolli/robotframework-gemini/blob/main/examples/demo_template.robot).
 
 ## Testes
 
