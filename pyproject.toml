@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "robotframework-gemini"
-version = "0.3.2"
+version = "0.3.3"
 description = "Google Gemini oracles for Robot Framework: text-only and multimodal (image) assertions."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -31,7 +31,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/carlosnizolli/robotframework-gemini"
-Documentation = "https://github.com/carlosnizolli/robotframework-gemini#readme"
+Documentation = "https://github.com/carlosnizolli/robotframework-gemini/blob/main/README.md"
 Repository = "https://github.com/carlosnizolli/robotframework-gemini"
 Issues = "https://github.com/carlosnizolli/robotframework-gemini/issues"
 Changelog = "https://github.com/carlosnizolli/robotframework-gemini/releases"
@@ -67,6 +67,7 @@ include = [
     "src/BrowserGeminiLibrary.py",
     "LICENSE",
     "README.md",
+    "README.pt-BR.md",
 ]
 
 [tool.pytest.ini_options]

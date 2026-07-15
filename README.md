@@ -1,90 +1,92 @@
 # robotframework-gemini
 
-Biblioteca de **keywords do Robot Framework** para oráculos com **Google Gemini**: avaliação **só texto** (API, logs, JSON, etc.) ou **multimodal** com imagem (arquivo PNG ou captura do **Robot Framework Browser**).
+**English** | [Português (Brasil)](README.pt-BR.md)
 
-- **Multimodal**: envia o texto do prompt e a captura como `Part` em bytes (`google-genai`).
-- **Fluxo recomendado**: duas entradas — **contexto** (enquadramento do teste) e **avaliação** (critério ou pergunta objetiva).
-- **Browser opcional**: keywords de screenshot exigem `Library    Browser`; keywords de texto funcionam sem navegador.
+Robot Framework **keyword library** for **Google Gemini** oracles: **text-only** evaluation (API payloads, logs, JSON, etc.) or **multimodal** checks with an image (PNG file or a **Robot Framework Browser** screenshot).
 
-## Instalação
+- **Multimodal**: sends prompt text and the capture as a byte `Part` (`google-genai`).
+- **Recommended flow**: two inputs — **context** (test framing) and **evaluation** (criterion or yes/no question).
+- **Browser optional**: screenshot keywords need `Library    Browser`; text keywords work without a browser.
+
+## Installation
 
 ```bash
 pip install robotframework-gemini
 ```
 
-Com suporte a captura via Robot Framework Browser (Playwright):
+With Robot Framework Browser (Playwright) screenshot support:
 
 ```bash
 pip install "robotframework-gemini[browser]"
 python -m pip install robotframework
 ```
 
-Desenvolvimento local:
+Local development:
 
 ```bash
 python -m pip install -e ".[dev]"
 ```
 
-## Variáveis de ambiente e importação da Library
+## Environment variables and Library import
 
-| Variável / argumento | Função |
-|----------------------|--------|
-| `GEMINI_API_KEY` | Chave da API Gemini (obrigatória se não passar `api_key` na Library) |
-| `GEMINI_MODEL` | Modelo (ex.: `gemini-3.1-flash-lite`). Se omitido, usa `gemini-2.5-flash`. |
-| `api_key` (import) | Sobrescreve `GEMINI_API_KEY` na importação da Library |
-| `model` (import) | Sobrescreve `GEMINI_MODEL` na importação da Library |
+| Variable / argument | Purpose |
+|---------------------|---------|
+| `GEMINI_API_KEY` | Gemini API key (required unless you pass `api_key` on the Library) |
+| `GEMINI_MODEL` | Model id (e.g. `gemini-2.5-flash`). If omitted, defaults to `gemini-2.5-flash`. |
+| `api_key` (import) | Overrides `GEMINI_API_KEY` at Library import |
+| `model` (import) | Overrides `GEMINI_MODEL` at Library import |
 
-Por padrão, a Library lê chave e modelo das variáveis de ambiente. Você também pode passá-los na importação (útil em CI ou suítes com credenciais em variáveis Robot):
+By default the Library reads key and model from the environment. You can also pass them on import (useful in CI or suites that keep credentials in Robot variables):
 
 ```robot
 *** Variables ***
 ${GEMINI_API_KEY}    %{GEMINI_API_KEY}
-${GEMINI_MODEL}      gemini-2.5-flash-lite
+${GEMINI_MODEL}      gemini-2.5-flash
 
 *** Settings ***
 Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 ```
 
-Só o modelo (chave continua vinda do ambiente):
+Model only (key still comes from the environment):
 
 ```robot
 Library    GeminiLibrary    model=gemini-2.5-flash
 ```
 
-Import explícito (equivalente):
+Explicit package import (equivalent):
 
 ```robot
 Library    robotframework_gemini.library.GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 ```
 
-> Evite commitar a chave literal no repositório; prefira `%{GEMINI_API_KEY}` ou secrets do CI.
+> Do not commit a literal API key; prefer `%{GEMINI_API_KEY}` or CI secrets.
 
-## Documentação de Keywords
+## Keyword documentation
 
-- Português: [docs/KEYWORDS.pt-BR.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md)
 - English: [docs/KEYWORDS.en.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md)
+- Português: [docs/KEYWORDS.pt-BR.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md)
 
-## Uso no Robot Framework
+## Usage in Robot Framework
 
-> **Nota:** os exemplos usam `Set Variable` e `Catenate` em vez da keyword `VAR` (Robot Framework 7.0+) para manter retrocompatibilidade com versões anteriores do Robot Framework.
+> **Note:** examples use `Set Variable` and `Catenate` instead of the `VAR` keyword (Robot Framework 7.0+) to stay compatible with older Robot Framework versions.
 
-### Só texto (sem Browser)
+### Text only (no Browser)
 
 ```robot
 *** Settings ***
 Library    GeminiLibrary
 
 *** Keywords ***
-Validar resposta da API
+Validate API response
     ${context}=       Set Variable    {"status": "ok", "items": 3}
-    ${evaluation}=    Set Variable    O payload indica sucesso com itens?
+    ${evaluation}=    Set Variable    Does the payload indicate success with items?
     ${model_response}=    Gemini Evaluate Text    ${context}    ${evaluation}
     Log    ${model_response}
 ```
 
-### Com captura de tela (Browser)
+### With a screenshot (Browser)
 
-Declare a biblioteca **Browser** antes de **Gemini**:
+Import **Browser** before **Gemini**:
 
 ```robot
 *** Settings ***
@@ -92,73 +94,73 @@ Library    Browser
 Library    GeminiLibrary
 
 *** Keywords ***
-Checar tela por critério neutro
-    ${context}=       Set Variable    Lista filtrada por status Ativo.
-    ${evaluation}=    Set Variable    Todos os itens visíveis mostram status Ativo?
+Check screen against a neutral criterion
+    ${context}=       Set Variable    List filtered by Active status.
+    ${evaluation}=    Set Variable    Do all visible items show Active status?
     ${model_response}=    Gemini Evaluate With Screen    ${context}    ${evaluation}
     Log    ${model_response}
 ```
 
-Import recomendado (RobotCode, runtime e PyPI):
+Recommended import (RobotCode, runtime, and PyPI):
 
 ```robot
 Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 ```
 
-Import explícito do pacote (IDEs que preferem o caminho completo):
+Explicit package path (IDEs that prefer a full Python path):
 
 ```robot
 Library    robotframework_gemini.library.GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 ```
 
-### IDE e RobotCode
+### IDE and RobotCode
 
-| Forma de import | Quem resolve |
-|-----------------|--------------|
-| `Library    GeminiLibrary` | Módulo top-level `GeminiLibrary.py` (instalado no wheel ou via `src/` no clone) |
-| `Library    robotframework_gemini.library.GeminiLibrary` | Pacote Python padrão |
+| Import form | Resolved by |
+|-------------|-------------|
+| `Library    GeminiLibrary` | Top-level `GeminiLibrary.py` module (installed in the wheel or via `src/` in a clone) |
+| `Library    robotframework_gemini.library.GeminiLibrary` | Standard Python package path |
 
-No **clone do repositório**, sem instalar:
+In a **repository clone**, without installing:
 
-- [`robot.toml`](robot.toml) — `python-path = ["src"]` para RobotCode/LSP
-- [`.vscode/settings.json`](.vscode/settings.json) — `extraPaths` para Pylance/Cursor
+- [`robot.toml`](robot.toml) — `python-path = ["src"]` for RobotCode/LSP
+- [`.vscode/settings.json`](.vscode/settings.json) — `extraPaths` for Pylance/Cursor
 
-Com venv local: `pip install -e ".[dev]"` e recarregue a janela do IDE após mudanças.
+With a local venv: `pip install -e ".[dev]"`, then reload the IDE window after changes.
 
-Com arquivo já salvo:
+With an image file already saved:
 
 ```robot
-Browser.Take Screenshot    ${OUTPUT_DIR}/tela.png
-${model_response}=    Gemini Evaluate With Image File    ${context}    ${evaluation}    ${OUTPUT_DIR}/tela.png
+Browser.Take Screenshot    ${OUTPUT_DIR}/screen.png
+${model_response}=    Gemini Evaluate With Image File    ${context}    ${evaluation}    ${OUTPUT_DIR}/screen.png
 ```
 
-Veredito via prompt (primeira linha) e nota 1–5:
+Verdict via prompt (first line) and 1–5 score:
 
 ```robot
 ${model_response}=    Gemini Evaluate With Screen    ${context}    ${evaluation}
-...    extra_instructions=Responda com uma palavra na primeira linha: Sim ou Não.
+...    extra_instructions=Reply with one word on the first line: Yes or No.
 ${verdict}=    Get Line    ${model_response}    0
-Should Be Equal As Strings    ${verdict}    Sim
+Should Be Equal As Strings    ${verdict}    Yes
 
-# Nota 1–5: duas etapas (log da justificativa) ou atalho em uma linha
+# Score 1–5: two steps (log the reason) or one-line shortcut
 ${model_response}=    Gemini Evaluate Text Rating    ${context}    ${evaluation}
 ${rating_score}=    Gemini Parse Rating    ${model_response}
 
 ${rating_score}=    Gemini Evaluate Text Rating Score    ${context}    ${evaluation}
 ```
 
-Detalhes das três keywords de nota: [Notas 1–5 (pt-BR)](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md#notas-15-três-keywords-quando-usar).
+Details for the three rating keywords: [Scores 1–5 (EN)](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md#scores-15-three-keywords-when-to-use).
 
-Consulte também [examples/demo_template.robot](https://github.com/carlosnizolli/robotframework-gemini/blob/main/examples/demo_template.robot).
+See also [examples/demo_template.robot](https://github.com/carlosnizolli/robotframework-gemini/blob/main/examples/demo_template.robot).
 
-## Testes
+## Tests
 
 ```bash
 pytest
 ```
 
-Os testes usam mocks de `generate_content`; não há chamadas reais à API.
+Tests mock `generate_content`; there are no real API calls.
 
-## Licença
+## License
 
 MIT.
