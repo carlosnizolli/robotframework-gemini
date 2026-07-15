@@ -1,6 +1,6 @@
 # robotframework-gemini
 
-**English** | [Português (Brasil)](README.pt-BR.md)
+**English** | [Português (Brasil)](https://github.com/carlosnizolli/robotframework-gemini/blob/main/README.pt-BR.md)
 
 Robot Framework **keyword library** for **Google Gemini** oracles: **text-only** evaluation (API payloads, logs, JSON, etc.) or **multimodal** checks with an image (PNG file or a **Robot Framework Browser** screenshot).
 

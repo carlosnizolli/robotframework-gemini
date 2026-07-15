@@ -1,6 +1,6 @@
 # robotframework-gemini
 
-[English](README.md) | **Português (Brasil)**
+[English](https://github.com/carlosnizolli/robotframework-gemini/blob/main/README.md) | **Português (Brasil)**
 
 Biblioteca de **keywords do Robot Framework** para oráculos com **Google Gemini**: avaliação **só texto** (API, logs, JSON, etc.) ou **multimodal** com imagem (arquivo PNG ou captura do **Robot Framework Browser**).
 
