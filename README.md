@@ -166,6 +166,7 @@ Part of a Robot Framework tooling set:
 | [robotframework-gemini_exemplos](https://github.com/carlosnizolli/robotframework-gemini_exemplos) | Practical suites using this library |
 | [RobotToPGListener](https://github.com/carlosnizolli/RobotToPGListener) | Persist RF test results to PostgreSQL |
 | [docker-robotframework](https://github.com/carlosnizolli/docker-robotframework) | Ubuntu image for RF + Browser CI/E2E |
+| [robotframework-docker-actions](https://github.com/carlosnizolli/robotframework-docker-actions) | GitHub Action to run tests with the Docker image in CI |
 | [RoboCop](https://github.com/carlosnizolli/RoboCop) | Robocop as a GitHub Action |
 
 ## Tests
