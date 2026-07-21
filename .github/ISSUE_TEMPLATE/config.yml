@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/carlosnizolli/robotframework-gemini/security/advisories/new
+    about: Report a security issue privately (do not open a public issue).
+  - name: Keyword documentation (EN)
+    url: https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md
+    about: Keyword reference before filing a usage question.
+  - name: Keyword documentation (pt-BR)
+    url: https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md
+    about: Referência de keywords em português.

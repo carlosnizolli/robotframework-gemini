@@ -1,6 +1,87 @@
+# Virtual environments
 .venv/
+venv/
+ENV/
+.env/
+.direnv/
+
+# Environment / secrets (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+**/secrets/**
+.python-version
+
+# Python
 __pycache__/
-*.pyc
-/dist/
-/*.egg-info/
-/.pytest_cache/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+*.manifest
+*.spec
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.dmypy.json
+dmypy.json
+.pyre/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.cache/
+
+# Packaging / editable install leftovers
+src/*.egg-info/
+*.egg-info/
+
+# IDEs / editors
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Robot Framework / test run artifacts
+output.xml
+log.html
+report.html
+playwright-log.txt
+*.png
+!assets/**/*.png
+pabot_results/
+.pabotsuitenames
+DEBUG/
+results/
+reports/
+**/output/
+**/results/
+
+# Local misc
+*.log
+tmp/
+temp/
+.scratch/

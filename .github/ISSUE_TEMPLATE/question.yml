@@ -1,0 +1,27 @@
+name: Question / usage
+description: Ask about keywords, install, or Docker/CI integration
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Prefer reading the docs first:
+        - [KEYWORDS.en.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md)
+        - [KEYWORDS.pt-BR.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md)
+        - [README](https://github.com/carlosnizolli/robotframework-gemini/blob/main/README.md)
+
+        **Never paste your Gemini API key.**
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: How you import the Library, env vars (names only), Docker vs local, etc.
+    validations:
+      required: false

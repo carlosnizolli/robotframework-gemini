@@ -1,5 +1,9 @@
 # robotframework-gemini
 
+[![PyPI version](https://img.shields.io/pypi/v/robotframework-gemini.svg)](https://pypi.org/project/robotframework-gemini/)
+[![Python versions](https://img.shields.io/pypi/pyversions/robotframework-gemini.svg)](https://pypi.org/project/robotframework-gemini/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 [English](https://github.com/carlosnizolli/robotframework-gemini/blob/main/README.md) | **Português (Brasil)**
 
 Biblioteca de **keywords do Robot Framework** para oráculos com **Google Gemini**: avaliação **só texto** (API, logs, JSON, etc.) ou **multimodal** com imagem (arquivo PNG ou captura do **Robot Framework Browser**).
@@ -153,6 +157,17 @@ Detalhes das três keywords de nota: [Notas 1–5 (pt-BR)](https://github.com/ca
 
 Consulte também [examples/demo_template.robot](https://github.com/carlosnizolli/robotframework-gemini/blob/main/examples/demo_template.robot).
 
+## Projetos relacionados
+
+Parte de um conjunto de ferramentas para Robot Framework:
+
+| Projeto | Descrição |
+|---------|-----------|
+| [robotframework-gemini_exemplos](https://github.com/carlosnizolli/robotframework-gemini_exemplos) | Suítes práticas usando esta biblioteca |
+| [RobotToPGListener](https://github.com/carlosnizolli/RobotToPGListener) | Persistir resultados RF no PostgreSQL |
+| [docker-robotframework](https://github.com/carlosnizolli/docker-robotframework) | Imagem Ubuntu para RF + Browser (CI/E2E) |
+| [RoboCop](https://github.com/carlosnizolli/RoboCop) | Robocop como GitHub Action |
+
 ## Testes
 
 ```bash
@@ -160,6 +175,10 @@ pytest
 ```
 
 Os testes usam mocks de `generate_content`; não há chamadas reais à API.
+
+## Segurança
+
+Veja [SECURITY.md](https://github.com/carlosnizolli/robotframework-gemini/blob/main/SECURITY.md) para reportar vulnerabilidades de forma privada.
 
 ## Licença
 

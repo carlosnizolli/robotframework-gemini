@@ -1,0 +1,64 @@
+name: Bug report
+description: Something is broken or behaves unexpectedly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Do not paste API keys or secrets.**
+        Security issues → [Security Advisories](https://github.com/carlosnizolli/robotframework-gemini/security/advisories/new).
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: Output of `pip show robotframework-gemini` or `python -c "from robotframework_gemini import __version__; print(__version__)"`
+      placeholder: "0.3.4"
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.12"
+    validations:
+      required: true
+  - type: input
+    id: robot
+    attributes:
+      label: Robot Framework version (if applicable)
+      placeholder: "7.2.x"
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Expected vs actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Short `.robot` snippet or Python snippet. Redact secrets.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / traceback
+      description: Relevant error lines only. Redact keys and tokens.
+      render: text
+    validations:
+      required: false
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues for duplicates
+          required: true
+        - label: I did not include API keys or credentials
+          required: true
