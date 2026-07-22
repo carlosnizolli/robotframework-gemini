@@ -36,7 +36,7 @@ python -m pip install -e ".[dev]"
 | Variable / argument | Purpose |
 |---------------------|---------|
 | `GEMINI_API_KEY` | Gemini API key (required unless you pass `api_key` on the Library) |
-| `GEMINI_MODEL` | Model id (e.g. `gemini-2.5-flash`). If omitted, defaults to `gemini-2.5-flash`. |
+| `GEMINI_MODEL` | Model id (e.g. `gemini-flash-latest`). If omitted, defaults to `gemini-flash-latest`. |
 | `api_key` (import) | Overrides `GEMINI_API_KEY` at Library import |
 | `model` (import) | Overrides `GEMINI_MODEL` at Library import |
 
@@ -45,7 +45,7 @@ By default the Library reads key and model from the environment. You can also pa
 ```robot
 *** Variables ***
 ${GEMINI_API_KEY}    %{GEMINI_API_KEY}
-${GEMINI_MODEL}      gemini-2.5-flash
+${GEMINI_MODEL}      gemini-flash-latest
 
 *** Settings ***
 Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
@@ -54,7 +54,7 @@ Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 Model only (key still comes from the environment):
 
 ```robot
-Library    GeminiLibrary    model=gemini-2.5-flash
+Library    GeminiLibrary    model=gemini-flash-latest
 ```
 
 Explicit package import (equivalent):

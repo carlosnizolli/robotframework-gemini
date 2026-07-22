@@ -33,7 +33,7 @@ class GeminiOrchestrator:
 
     Environment:
     - GEMINI_API_KEY for the API key (unless ``api_key`` is passed explicitly)
-    - GEMINI_MODEL for model id (e.g. gemini-2.5-flash); defaults to gemini-2.5-flash
+    - GEMINI_MODEL for model id (e.g. gemini-flash-latest); defaults to gemini-flash-latest
     """
 
     def __init__(
@@ -47,7 +47,7 @@ class GeminiOrchestrator:
             raise ValueError(
                 "Missing API key: set GEMINI_API_KEY (or pass api_key=...)"
             )
-        self.model = model or os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
+        self.model = model or os.environ.get("GEMINI_MODEL") or "gemini-flash-latest"
         self._client = genai.Client(api_key=key)
 
     def generate_from_text(self, prompt: str) -> str:

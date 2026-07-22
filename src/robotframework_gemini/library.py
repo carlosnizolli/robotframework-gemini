@@ -37,7 +37,7 @@ class GeminiLibrary:
 
     Import arguments:
     - ``api_key`` — Gemini API key (falls back to ``GEMINI_API_KEY`` when omitted)
-    - ``model`` — model id (falls back to ``GEMINI_MODEL``, then ``gemini-2.5-flash``)
+    - ``model`` — model id (falls back to ``GEMINI_MODEL``, then ``gemini-flash-latest``)
     """
 
     ROBOT_LIBRARY_SCOPE = "GLOBAL"

@@ -36,7 +36,7 @@ python -m pip install -e ".[dev]"
 | Variável / argumento | Função |
 |----------------------|--------|
 | `GEMINI_API_KEY` | Chave da API Gemini (obrigatória se não passar `api_key` na Library) |
-| `GEMINI_MODEL` | Modelo (ex.: `gemini-2.5-flash`). Se omitido, usa `gemini-2.5-flash`. |
+| `GEMINI_MODEL` | Modelo (ex.: `gemini-flash-latest`). Se omitido, usa `gemini-flash-latest`. |
 | `api_key` (import) | Sobrescreve `GEMINI_API_KEY` na importação da Library |
 | `model` (import) | Sobrescreve `GEMINI_MODEL` na importação da Library |
 
@@ -45,7 +45,7 @@ Por padrão, a Library lê chave e modelo das variáveis de ambiente. Você tamb
 ```robot
 *** Variables ***
 ${GEMINI_API_KEY}    %{GEMINI_API_KEY}
-${GEMINI_MODEL}      gemini-2.5-flash
+${GEMINI_MODEL}      gemini-flash-latest
 
 *** Settings ***
 Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
@@ -54,7 +54,7 @@ Library    GeminiLibrary    api_key=${GEMINI_API_KEY}    model=${GEMINI_MODEL}
 Só o modelo (chave continua vinda do ambiente):
 
 ```robot
-Library    GeminiLibrary    model=gemini-2.5-flash
+Library    GeminiLibrary    model=gemini-flash-latest
 ```
 
 Import explícito (equivalente):
